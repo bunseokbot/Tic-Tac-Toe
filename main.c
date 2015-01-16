@@ -1,80 +1,174 @@
-#include <stdio.h>
-
 /*
- Tic-Tac-Toe Execution File Disassemble source description
- Author : bunseokbot@bob (admin@smishing.kr)
-*/
+ * Tic-Tac-Toe 3x3 Game
+ * Author : bunseokbot@bob
+ * Contacts : admin@smishing.kr
+ * Blog : http://blog.smishing.kr
+ */
 
-int main(void) {
-    
-    int v1;
-    
-    //000513DC    8DBD 10FFFFFF   LEA EDI,[EBP-0F0]
-    //000513E2    B9 3C000000     MOV ECX,3C
-    //000513E7    B8 CCCCCCCC     MOV EAX,CCCCCCCC
-    //000513EC    F3:AB           REP STOS DWORD PTR ES:[EDI]
-    //set memory
-    memset(&v1, 0xCC, 0xF0);
+#include <stdio.h>
+#
+#include <stdlib.h>
 
-    //000513EE    C745 F8 0000000 MOV DWORD PTR SS:[EBP-8],0
-    int v2;
+char board[3][3] = {
+    {'O','O','O'},
+    {'O','O','O'},
+    {'O','O','O'}
+}; //Initial Gameboard
+
+int USER = 0;
+char USER_DOL = 'A';
+int COMPUTER = 1;
+char COMPUTER_DOL = 'B';
+
+void gameboard() {
+    int i, j;
+    printf("\n");
+    for (i=0; i<3; i++) {
+        for (j=0; j<3; j++) {
+            printf("%c ", board[i][j]);
+        }
+        printf("\n");
+    }
+    printf("\n");
+}
+
+void tictactoeIntro() {
+    printf("Welcome to Tic-Tac-Toe 3x3 Game?!\n");
+    printf("Bug report to bunseokbot@bob\n\n");
+    gameboard();
+}
+
+int checkEnd() {
+    int i, j, k;
     
-    //000513F5    C745 EC 0000000 MOV DWORD PTR SS:[EBP-14],0
-    int v3;
+    //Cross Checking
+    //ARMCoding ----> 귀찮아
+    if (board[0][0] == board[1][1] == board[2][2] == USER_DOL) {
+        printf("[*] User Win!\n");
+        return 1;
+    }
     
-    //000513FC    C745 E0 0000000 MOV DWORD PTR SS:[EBP-20],0
-    int v4;
+    if (board[0][0] == board[1][1] == board[2][2] == COMPUTER_DOL) {
+        printf("[*] Computer Win!\n");
+        return 1;
+    }
     
-    //00051403    C745 D4 0000000 MOV DWORD PTR SS:[EBP-2C],0
-    //0005140A    C745 D4 0000000 MOV DWORD PTR SS:[EBP-2C],0
-    int i;
+    if (board[2][0] == board[1][1] == board[0][2] == USER_DOL) {
+        printf("[*] User Win!\n");
+        return 1;
+    }
     
-    //00051411   /EB 09           JMP SHORT 0005141C
-    //00051413   |8B45 D4         MOV EAX,DWORD PTR SS:[EBP-2C]
-    //00051416   |83C0 01         ADD EAX,1
-    //00051419   |8945 D4         MOV DWORD PTR SS:[EBP-2C],EAX
-    for (i=0; ; ++i) {
-        //0005141C    837D D4 09      CMP DWORD PTR SS:[EBP-2C],9
-        //00051420    0F8D 81000000   JGE 000514A7
-        if (i < 9) {
-            //아 귀찮아 안해
-            //그냥 화면 뿌려줌
-            //총 게임에서 놓을 수 있는 횟수가 9번이므로 9번 플레이 하게 된다.
-            //PUSH ECX
-            //PUSH OFFSET 0005573C;%d %d
-            //CALL DWORD PTR DS:[582B8];
-            scanf("%d %d", &v2, &v3);
-            //입력 받음
+    if (board[2][0] == board[1][1] == board[0][2] == COMPUTER_DOL) {
+        printf("[*] Computer Win!\n");
+        return 1;
+    }
+    
+    for (i=0; i<3; i++) {
+        for (j=0; j<3; j++) {
+            if (board[i][j] != COMPUTER_DOL) {
+                break;
+            }
+            
+            if (j == 2) {
+                printf("[*] Computer Win!\n");
+                return 1;
+            }
+            
         }
     }
     
-    //0005146B    FF15 B8820500   CALL DWORD PTR DS:[582B8]
-    //00051471    83C4 0C         ADD ESP,0C
-    //00051474    3BF4            CMP ESI,ESP
-    //00051476    E8 CFFCFFFF     CALL 0005114A
-    //0005114A(); <- 함수 호출함, 인자 없음
+    for (i=0; i<3; i++) {
+        for (j=0; j<3; j++) {
+            if (board[i][j] != USER_DOL) {
+                break;
+            }
+            
+            if (j == 2) {
+                printf("[*] User Win!\n");
+                return 1;
+            }
+            
+        }
+    }
     
-    //0005147B    8B45 F8         MOV EAX,DWORD PTR SS:[EBP-8]
-    //0005147E    50              PUSH EAX ;v4
-    //0005147F    8B4D E0         MOV ECX,DWORD PTR SS:[EBP-20]
-    //00051482    51              PUSH ECX ;v3
-    //00051483    8B55 EC         MOV EDX,DWORD PTR SS:[EBP-14]
-    //00051486    52              PUSH EDX ;v2 거꾸로 들어가는 이유는 나중에 들어간 것이 먼저 나오는 방식이므로
-    //00051487    E8 97FBFFFF     CALL 00051023
-    //00051023(v2, v3, v4); <- 함수 호출함, 인자 3개 받음
+    for (i=0; i<3; i++) {
+        for (j=0; j<3; j++) {
+            if (board[j][i] != COMPUTER_DOL) {
+                break;
+            }
+            
+            if (j == 2) {
+                printf("[*] Computer Win!\n");
+                return 1;
+            }
+            
+        }
+    }
     
-    //0005148C    83C4 0C         ADD ESP,0C
-    //0005148F    8B45 F8         MOV EAX,DWORD PTR SS:[EBP-8]
-    //00051492    50              PUSH EAX
-    //00051493    E8 85FCFFFF     CALL 0005111D
-    //00051498    83C4 04         ADD ESP,4
-    //0005149B    83F8 01         CMP EAX,1
-    /*if (0005111D(v4) != 0) {
-        continue;
-    }*/
-    
-    //getchar 호출 몇번 하고 함수 종료함
-    
-    //사실 분석하기는 별로 안어려운데 컴파일한 사람이 디버그 모드로 컴파일해서 그냥 분석하기 귀찮았다 젠장
-    
+    for (i=0; i<3; i++) {
+        for (j=0; j<3; j++) {
+            if (board[j][i] != USER_DOL) {
+                break;
+            }
+            
+            if (j == 2) {
+                printf("[*] User Win!\n");
+                return 1;
+            }
+            
+        }
+    }
+
+    return 0;
+}
+
+void GameStart() {
+    int count;
+    int user = 0;
+    int end;
+    for (count = 0; count<9; count++) {
+        int x = 0, y = 0;
+        if (user == 0) {
+            //user try
+RETRY:      printf("Input (x, y) location : ");
+            scanf("%d %d", &x, &y);
+            if (board[x][y] != 'O') {
+                //relocation?
+                printf("잘못된 위치입니다, 다시 설정해 주세요\n");
+                goto RETRY;
+            } else {
+                board[x][y] = USER_DOL;
+                gameboard();
+                end = checkEnd();
+                if (end == 1) {
+                    exit(0);
+                }
+                user = 1;
+            }
+        } else {
+            //computer try
+COMPUTER_RETRY:
+            x = rand() % 3;
+            y = rand() % 3;
+            if (board[x][y] != 'O') {
+                goto COMPUTER_RETRY;
+            } else {
+                board[x][y] = COMPUTER_DOL;
+                printf("Computer Selected [x] = %d [y] = %d\n", x, y);
+                gameboard();
+                end = checkEnd();
+                if (end == 1) {
+                    exit(0);
+                }
+                user = 0;
+            }
+        }
+        
+    }
+}
+
+int main(void) {
+    tictactoeIntro();
+    GameStart();
+    return 0;
 }
