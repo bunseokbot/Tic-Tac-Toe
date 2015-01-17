@@ -39,26 +39,26 @@ void tictactoeIntro() {
 }
 
 int checkEnd() {
-    int i, j, k;
+    int i, j;
     
     //Cross Checking
     //ARMCoding ----> 귀찮아
-    if (board[0][0] == board[1][1] == board[2][2] == USER_DOL) {
+    if (board[0][0] == USER_DOL && board[1][1] == USER_DOL && board[2][2] == USER_DOL) {
         printf("[*] User Win!\n");
         return 1;
     }
     
-    if (board[0][0] == board[1][1] == board[2][2] == COMPUTER_DOL) {
+    if (board[0][0] == COMPUTER_DOL && board[1][1] == COMPUTER_DOL && board[2][2] == COMPUTER_DOL) {
         printf("[*] Computer Win!\n");
         return 1;
     }
     
-    if (board[2][0] == board[1][1] == board[0][2] == USER_DOL) {
+    if (board[2][0] == USER_DOL && board[1][1] == USER_DOL && board[0][2] == USER_DOL) {
         printf("[*] User Win!\n");
         return 1;
     }
     
-    if (board[2][0] == board[1][1] == board[0][2] == COMPUTER_DOL) {
+    if (board[2][0] == COMPUTER_DOL && board[1][1] == COMPUTER_DOL && board[0][2] == COMPUTER_DOL) {
         printf("[*] Computer Win!\n");
         return 1;
     }
