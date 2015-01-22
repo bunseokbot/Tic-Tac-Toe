@@ -6,8 +6,8 @@
  */
 
 #include <stdio.h>
-#
 #include <stdlib.h>
+#include <ctype.h>
 
 char board[3][3] = {
     {'O','O','O'},
@@ -127,15 +127,15 @@ void GameStart() {
     int user = 0;
     int end;
     for (count = 0; count<9; count++) {
-        int x = 0, y = 0;
+		int x = 0, y = 0;
         if (user == 0) {
             //user try
-RETRY:      printf("Input (x, y) location : ");
-            scanf("%d %d", &x, &y);
-            if (board[x][y] != 'O') {
+RETRY:		printf("Input (x, y) location : ");
+			scanf("%d %d", &x, &y); 
+			if (board[x][y] != 'O') {
                 //relocation?
-                printf("잘못된 위치입니다, 다시 설정해 주세요\n");
-                goto RETRY;
+				printf("잘못된 위치입니다, 다시 설정해 주세요\n");
+				goto RETRY;
             } else {
                 board[x][y] = USER_DOL;
                 gameboard();
